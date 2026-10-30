@@ -600,6 +600,67 @@
 .stake-max-btn:hover {
   color: #ffffff;
 }
+
+  /* ===== NAVAA TOKEN + MAX INPUT DESIGN ===== */
+
+.stake-amount-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.stake-amount-wrap .earn-input {
+  width: 100%;
+  padding-right: 145px;
+  margin-top: 5px;
+  min-height: 48px;
+}
+
+.stake-input-actions {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stake-token-name {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .3px;
+}
+
+.stake-max-btn {
+  position: static;
+  transform: none;
+
+  border: 0;
+  background: transparent;
+  color: #00e5a0;
+
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 7px 3px;
+}
+
+.stake-max-btn:hover {
+  color: #ffffff;
+}
+
+#earnStatus {
+  min-height: 0;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+
+#earnStatus:empty {
+  display: none;
+}
+  
   /*----------------------------*/
   
 </style>
@@ -789,18 +850,36 @@
           <span class="stake-plan-days">1825 D</span>
           <span class="stake-plan-rate">0.07% <small>Daily</small></span>
         </button>
+
+        <label class="earn-label" for="stakeAmount">Amount</label>
+        <div class="stake-amount-wrap">
+          <input class="earn-input" id="stakeAmount" type="number" min="1000" step="any" placeholder="Minimum 1000">
+          <div class="stake-input-actions">
+            <span class="stake-token-name">NAVAA</span>
+            <button class="stake-max-btn" id="stakeUseMax" type="button">Max</button>
+          </div>
+        </div>
+        <div class="status muted" id="earnStatus" role="status"></div>
+
+
+<!-------------
+        
         <label class="earn-label" for="stakeAmount">Amount</label>
         <div class="stake-amount-wrap">
           <input class="earn-input" id="stakeAmount" type="number" min="1000" step="any" placeholder="Minimum 1000">
           <button class="stake-max-btn" id="stakeUseMax" type="button">Max</button>
         </div>
+        ------->
         <!---------------------------------------------------->
         
         <label class="earn-label" for="stakeReferrer">Referral address (first stake only)</label>
         <input class="earn-input" id="stakeReferrer" type="text" placeholder="0x... (optional if already staked)">
         <div class="earn-note" style="margin-top:6px">A valid referrer must be the contract's root referrer or an existing staker. If no referral is entered for a first stake, the root referrer is used.</div>
         <div class="earn-actions" style="margin-top:12px"><button class="btn secondary" id="stakeApproveBtn">Approve NAVAA</button><button class="btn" id="stakeSubmitBtn">Stake NAVAA</button></div>
-        <div class="status muted" id="earnStatus" role="status"></div>
+    
+        <!----- <div class="status muted" id="earnStatus" role="status"></div>. -------->
+
+        
         <hr class="sep">
         <h2>Your positions</h2>
         <div class="earn-note">Rewards shown are estimates from on-chain data and may update after refresh. Claiming rewards is subject to the contract's 30-day cooldown.</div>
