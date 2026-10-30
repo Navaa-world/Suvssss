@@ -21,10 +21,7 @@
     --green:#34d399;
     --red:#fb7185;
   }
-  
-  * {
-    box-sizing:border-box;
-  }
+  * {box-sizing:border-box;}
   
   body {
     margin:0;
@@ -626,6 +623,31 @@
   display: none;
 }
   /*==========================*/
+  /* Stake amount balance information */
+.stake-balance-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 7px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.stake-balance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stake-balance-row strong {
+  color: #c4d0e5;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
   
 </style>
 </head>
@@ -824,6 +846,18 @@
           </div>
         </div>
         <div class="status muted" id="earnStatus" role="status"></div>
+
+        <div class="stake-balance-info">
+  <div class="stake-balance-row">
+    <span>Avail</span>
+    <strong id="stakeAvailAmount">— NAVAA</strong>
+  </div>
+
+  <div class="stake-balance-row">
+    <span>Maximum stake</span>
+    <strong id="stakeMaxAmount">— NAVAA</strong>
+  </div>
+</div>
         <!---------------------------------------------------->
         
         <label class="earn-label" for="stakeReferrer">Referral address (first stake only)</label>
@@ -1084,15 +1118,29 @@ async function refreshStakeInfo(){
     stakeRead.hasStaked(account),stakeRead.nextRewardClaimAt(account),stakeRead.positionCount(account),
     tokenRead.allowance(account,STAKING)
    ]);
-   setTxt('stakeWalletBalance',fmtToken(bal));setTxt('stakeMaxCapacity',fmtToken(capacity));setTxt('stakeReferralBalance',fmtToken(refBal));
+
+    
+   setTxt('stakeWalletBalance',fmtToken(bal));
+   setTxt('stakeMaxCapacity',fmtToken(capacity));
+   setTxt('stakeReferralBalance',fmtToken(refBal));
+   setTxt('stakeAvailAmount',fmtToken(bal) + ' NAVAA');
+   setTxt('stakeMaxAmount',fmtToken(capacity) + ' NAVAA');
+    
    setTxt('nextClaimText',Number(nextClaim)>0?dateText(nextClaim):'Available now');
    $('stakeReferrer').disabled=hasStaked;
    if(!hasStaked && !$('stakeReferrer').value)$('stakeReferrer').value=getReferralFromUrl()||root;
    $('referralLink').value=location.origin+location.pathname+'?ref='+account;
    $('stakeApproveBtn').textContent=allowance>0n?'Approve NAVAA (update)':'Approve NAVAA';
    await renderPositions(Number(count));
-  }else{
-   setTxt('stakeWalletBalance','—');setTxt('stakeMaxCapacity','—');setTxt('stakeReferralBalance','—');setTxt('nextClaimText','Connect wallet');
+  }
+  else{
+   setTxt('stakeWalletBalance','—');
+   setTxt('stakeMaxCapacity','—');
+   setTxt('stakeReferralBalance','—');
+   setTxt('stakeAvailAmount','— NAVAA');
+   setTxt('stakeMaxAmount','— NAVAA');
+    
+   setTxt('nextClaimText','Connect wallet');
    $('referralLink').value='Connect wallet to generate your link';
    $('stakePositions').innerHTML='<div class="muted">Connect wallet to view positions.</div>';
   }
@@ -1281,24 +1329,19 @@ async function stakeAdminTx(label,fn){
 
   // ----------New ApproveStake Function Validation -----
   async function approveStake(){
-
   try{
-
     if(!tokenWrite){
       throw Error('Please connect your wallet to continue.');
     }
-
     await ensurePolygon();
-
+    
     // Validate amount before approval
     const validation = await validateStakeAmount();
-
     if(!validation.valid){
       return;
     }
-
+    
     const amt = validation.amount;
-
     status(
       'earnStatus',
       'Please review NAVAA approval in your wallet…'
@@ -1310,7 +1353,6 @@ async function stakeAdminTx(label,fn){
       'earnStatus',
       'Approval pending: ' + tx.hash
     );
-
     await tx.wait();
 
     status(
@@ -1318,30 +1360,17 @@ async function stakeAdminTx(label,fn){
       'NAVAA approval successful. Now you can stake.',
       'good'
     );
-
     await refreshStakeInfo();
-
-  }catch(e){
-
+}
+  catch(e){
     status(
       'earnStatus',
       'Approval failed: ' + prettyError(e),
       'bad'
     );
-
   }
 }
-
-  
-/*async function approveStake(){
- try{if(!tokenWrite)throw Error('Pehle wallet connect karein.');await ensurePolygon();
- const amt=$('stakeAmount').value?amountToUnits($('stakeAmount').value):ethers.MaxUint256;
- status('earnStatus','Wallet mein NAVAA approval review karein…');
- const tx=await tokenWrite.approve(STAKING,amt);status('earnStatus','Approval pending: '+tx.hash);await tx.wait();
- status('earnStatus','NAVAA approval successful. Ab Stake NAVAA dabayein.','good');await refreshStakeInfo();
- }catch(e){status('earnStatus','Approval failed: '+prettyError(e),'bad');}
-}
-  */
+/////////////////////////////////////////////////////////////////////////////
 async function submitStake(){
  try{
   if(!stakeWrite||!tokenWrite)throw Error('Pehle wallet connect karein.');
@@ -1462,24 +1491,17 @@ $('stakeAmount').addEventListener('input',()=>{
   },400);
 });
   
-  //----Add Here Modification ----------
- 
+  //----Stake Plan Card ---------
   $('stakePlanCard').onclick=()=>{
   const card=$('stakePlanCard');
   const selected=card.classList.toggle('selected');
   card.setAttribute('aria-pressed',String(selected));
 };
-//-------------------------------------------
-  
+
 $('stakeSubmitBtn').onclick=submitStake;
 $('stakeUseMax').onclick=async()=>{try{if(!account)throw Error('Pehle wallet connect karein.');await initStakeRead();const [bal,cap]=await Promise.all([tokenRead.balanceOf(account),stakeRead.maxStakeCapacity(account)]);const v=bal<cap?bal:cap;if(v<ethers.parseEther('1000'))throw Error('Abhi 1000 NAVAA minimum ke liye sufficient balance ya reward reserve nahi hai.');
-
-                                       // Modify ---_---
 $('stakeAmount').value=ethers.formatUnits(v,18);
 $('stakeAmount').dispatchEvent(new Event('input'));}
-
-  //-----------
-  
 catch(e){status('earnStatus',prettyError(e),'bad');}};
 $('referralWithdrawBtn').onclick=withdrawReferral;
 $('copyReferralBtn').onclick=copyReferral;
