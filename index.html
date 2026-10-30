@@ -602,11 +602,7 @@
 }
 
 .stake-max-btn {
- /* position: absolute; */
   position: static;
-/*  right: 10px;
-  top: 50%; */
- /* transform: translateY(-50%); */
   transform: none;
   border: 0;
   background: transparent;
@@ -614,7 +610,7 @@
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
-/*  padding: 8px; */
+  padding: 7px 3px;
 }
 
 .stake-max-btn:hover {
@@ -629,33 +625,7 @@
 #earnStatus:empty {
   display: none;
 }
-  
-
-  /* ===== NAVAA TOKEN + MAX INPUT DESIGN ===== */
-
-/*.stake-max-btn {
-  position: static;
-  transform: none;
-  border: 0;
-  background: transparent;
-  color: #00e5a0;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  padding: 7px 3px;
-} 
-
-#earnStatus {
-  min-height: 0;
-  margin-top: 7px;
-  overflow-wrap: anywhere;
-}
-
-#earnStatus:empty {
-  display: none;
-}
-  */
-  /*----------------------------*/
+  /*==========================*/
   
 </style>
 </head>
@@ -854,16 +824,6 @@
           </div>
         </div>
         <div class="status muted" id="earnStatus" role="status"></div>
-
-
-<!-------------
-        
-        <label class="earn-label" for="stakeAmount">Amount</label>
-        <div class="stake-amount-wrap">
-          <input class="earn-input" id="stakeAmount" type="number" min="1000" step="any" placeholder="Minimum 1000">
-          <button class="stake-max-btn" id="stakeUseMax" type="button">Max</button>
-        </div>
-        ------->
         <!---------------------------------------------------->
         
         <label class="earn-label" for="stakeReferrer">Referral address (first stake only)</label>
