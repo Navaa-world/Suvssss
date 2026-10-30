@@ -579,77 +579,71 @@
 
 .stake-amount-wrap .earn-input {
   width: 100%;
-  padding-right: 65px;
-  margin-top: 5px;
-}
-
-.stake-max-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 0;
-  background: transparent;
-  color: #00e5a0;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  padding: 8px;
-}
-
-.stake-max-btn:hover {
-  color: #ffffff;
-}
-
-  /* ===== NAVAA TOKEN + MAX INPUT DESIGN ===== */
-
-.stake-amount-wrap {
-  position: relative;
-  width: 100%;
-}
-
-.stake-amount-wrap .earn-input {
-  width: 100%;
   padding-right: 145px;
   margin-top: 5px;
   min-height: 48px;
 }
-
-.stake-input-actions {
+  
+  .stake-input-actions {
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-
   display: flex;
   align-items: center;
   gap: 12px;
-}
+  }
 
-.stake-token-name {
+  .stake-token-name {
   color: var(--text);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: .3px;
 }
 
 .stake-max-btn {
+ /* position: absolute; */
   position: static;
+  right: 10px;
+  top: 50%;
+ /* transform: translateY(-50%); */
   transform: none;
-
   border: 0;
   background: transparent;
   color: #00e5a0;
-
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
-  padding: 7px 3px;
+/*  padding: 8px; */
 }
 
 .stake-max-btn:hover {
   color: #ffffff;
 }
+  #earnStatus {
+  min-height: 0;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+
+#earnStatus:empty {
+  display: none;
+}
+  
+
+  /* ===== NAVAA TOKEN + MAX INPUT DESIGN ===== */
+
+/*.stake-max-btn {
+  position: static;
+  transform: none;
+  border: 0;
+  background: transparent;
+  color: #00e5a0;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 7px 3px;
+} 
 
 #earnStatus {
   min-height: 0;
@@ -660,7 +654,7 @@
 #earnStatus:empty {
   display: none;
 }
-  
+  */
   /*----------------------------*/
   
 </style>
