@@ -1159,7 +1159,181 @@ async function stakeAdminTx(label,fn){
  status('stakeAdminStatus',label+' successful.','good');await refreshStakeInfo();
  }catch(e){status('stakeAdminStatus',label+' failed: '+prettyError(e),'bad');}
 }
-async function approveStake(){
+
+  //==============Modify for error status validation 
+  let stakeAmountValidationTimer = null;
+  let stakeAmountValidationRun = 0;
+  async function validateStakeAmount(){
+    const input = $('stakeAmount');
+    const raw = input.value.trim();
+    
+    // Empty input: clear the message
+    if(!raw){
+      $('earnStatus').textContent = '';
+      $('earnStatus').className = 'status muted';
+      return { valid:false, empty:true };
+    }
+    
+    // Wallet connection check
+    if(!account){
+      status(
+        'earnStatus',
+        'Please connect your wallet to continue.',
+        'bad');
+      return { valid:false };
+    }
+    
+    let amount;
+   
+    // Amount format check
+    try{
+      amount = ethers.parseUnits(raw,18);
+    }
+    catch(e){
+      status(
+        'earnStatus',
+        'Please enter a valid amount.',
+        'bad');
+      return { valid:false };
+    }
+
+    // Zero or negative amount
+    if(amount <= 0n){
+      status(
+        'earnStatus',
+        'Please enter a valid amount.',
+        'bad'
+      );
+      return { valid:false };
+    }
+    
+    // Minimum stake check
+    const minimum = ethers.parseEther('1000');
+
+    if(amount < minimum){
+      status(
+        'earnStatus',
+        'The amount cannot be lower than 1,000 NAVAA.',
+        'bad'
+      );
+      return { valid:false };
+    }
+
+    try{
+
+      if(!stakeRead){
+        stakeRead = new ethers.Contract(STAKING,STAKE_ABI,provider);
+      }
+
+      // Read latest wallet balance, contract capacity and pause status
+      const [balance,capacity,paused] = await Promise.all([
+        tokenRead.balanceOf(account),
+        stakeRead.maxStakeCapacity(account),
+        stakeRead.paused()
+      ]);
+
+      // Contract pause check
+      if(paused){
+        status(
+          'earnStatus',
+          'Staking is currently paused.',
+          'bad'
+        );
+        return { valid:false };
+      }
+
+      // Wallet balance check
+      if(amount > balance){
+        status(
+          'earnStatus',
+          'Insufficient NAVAA balance in your wallet.',
+          'bad'
+        );
+        return { valid:false };
+      }
+      // Maximum staking capacity check
+      if(amount > capacity){
+        const maximum = ethers.formatUnits(capacity,18)
+          .replace(/\.?0+$/,'');
+        status(
+          'earnStatus',
+          'The amount cannot be higher than ' + maximum + ' NAVAA.',
+          'bad'
+        );
+        return { valid:false };
+      }
+      // All checks passed
+      status(
+        'earnStatus',
+        'Amount is valid. You can proceed.',
+        'good'
+      );
+      return { valid:true, amount };
+    }catch(e){
+      status(
+        'earnStatus',
+        'Unable to verify staking capacity. Please try again.',
+        'bad'
+      );
+      return { valid:false };
+    }
+  }
+
+  // ----------New ApproveStake Function Validation -----
+  async function approveStake(){
+
+  try{
+
+    if(!tokenWrite){
+      throw Error('Please connect your wallet to continue.');
+    }
+
+    await ensurePolygon();
+
+    // Validate amount before approval
+    const validation = await validateStakeAmount();
+
+    if(!validation.valid){
+      return;
+    }
+
+    const amt = validation.amount;
+
+    status(
+      'earnStatus',
+      'Please review NAVAA approval in your wallet…'
+    );
+
+    const tx = await tokenWrite.approve(STAKING,amt);
+
+    status(
+      'earnStatus',
+      'Approval pending: ' + tx.hash
+    );
+
+    await tx.wait();
+
+    status(
+      'earnStatus',
+      'NAVAA approval successful. Now you can stake.',
+      'good'
+    );
+
+    await refreshStakeInfo();
+
+  }catch(e){
+
+    status(
+      'earnStatus',
+      'Approval failed: ' + prettyError(e),
+      'bad'
+    );
+
+  }
+}
+
+  
+/*async function approveStake(){
  try{if(!tokenWrite)throw Error('Pehle wallet connect karein.');await ensurePolygon();
  const amt=$('stakeAmount').value?amountToUnits($('stakeAmount').value):ethers.MaxUint256;
  status('earnStatus','Wallet mein NAVAA approval review karein…');
@@ -1167,6 +1341,7 @@ async function approveStake(){
  status('earnStatus','NAVAA approval successful. Ab Stake NAVAA dabayein.','good');await refreshStakeInfo();
  }catch(e){status('earnStatus','Approval failed: '+prettyError(e),'bad');}
 }
+  */
 async function submitStake(){
  try{
   if(!stakeWrite||!tokenWrite)throw Error('Pehle wallet connect karein.');
@@ -1273,8 +1448,20 @@ $('pageEarnTab').onclick = () => {
   $('pageExchangeTab').classList.remove('active');
 };
 $('pageEarnTab').addEventListener('click',()=>{initStakeRead().catch(e=>status('earnStatus','Staking contract read error: '+prettyError(e),'bad'));});
+
   
 $('stakeApproveBtn').onclick=approveStake;
+
+  // Live NAVAA stake amount validation
+$('stakeAmount').addEventListener('input',()=>{
+  clearTimeout(stakeAmountValidationTimer);
+  const run = ++stakeAmountValidationRun;
+  stakeAmountValidationTimer = setTimeout(async()=>{
+    if(run !== stakeAmountValidationRun) return;
+    await validateStakeAmount();
+  },400);
+});
+  
   //----Add Here Modification ----------
  
   $('stakePlanCard').onclick=()=>{
@@ -1285,7 +1472,15 @@ $('stakeApproveBtn').onclick=approveStake;
 //-------------------------------------------
   
 $('stakeSubmitBtn').onclick=submitStake;
-$('stakeUseMax').onclick=async()=>{try{if(!account)throw Error('Pehle wallet connect karein.');await initStakeRead();const [bal,cap]=await Promise.all([tokenRead.balanceOf(account),stakeRead.maxStakeCapacity(account)]);const v=bal<cap?bal:cap;if(v<ethers.parseEther('1000'))throw Error('Abhi 1000 NAVAA minimum ke liye sufficient balance ya reward reserve nahi hai.');$('stakeAmount').value=ethers.formatUnits(v,18);}catch(e){status('earnStatus',prettyError(e),'bad');}};
+$('stakeUseMax').onclick=async()=>{try{if(!account)throw Error('Pehle wallet connect karein.');await initStakeRead();const [bal,cap]=await Promise.all([tokenRead.balanceOf(account),stakeRead.maxStakeCapacity(account)]);const v=bal<cap?bal:cap;if(v<ethers.parseEther('1000'))throw Error('Abhi 1000 NAVAA minimum ke liye sufficient balance ya reward reserve nahi hai.');
+
+                                       // Modify ---_---
+$('stakeAmount').value=ethers.formatUnits(v,18);
+$('stakeAmount').dispatchEvent(new Event('input'));}
+
+  //-----------
+  
+catch(e){status('earnStatus',prettyError(e),'bad');}};
 $('referralWithdrawBtn').onclick=withdrawReferral;
 $('copyReferralBtn').onclick=copyReferral;
 $('refreshStakeBtn').onclick=()=>refreshStakeInfo().catch(e=>status('earnStatus','Staking contract read error: '+prettyError(e),'bad'));
