@@ -648,6 +648,105 @@
   text-align: right;
   overflow-wrap: anywhere;
 }
+
+
+/* ===== Stake details tabs ===== */
+
+.stake-detail-tabs {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--line);
+  margin-top: 22px;
+  margin-bottom: 16px;
+}
+
+.stake-detail-tab {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 12px 2px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color .25s ease;
+}
+
+.stake-detail-tab.active {
+  color: var(--text);
+}
+
+.stake-detail-tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 5px;
+  background: #00e5a0;
+  box-shadow: 0 0 9px rgba(0,229,160,.45);
+  animation: stakeTabLine .25s ease;
+}
+
+@keyframes stakeTabLine {
+  from { transform: scaleX(.25); opacity: .3; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+.stake-detail-panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(7px);
+}
+
+.stake-detail-panel.active {
+  display: block;
+  animation: stakePanelIn .28s ease forwards;
+}
+
+@keyframes stakePanelIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.daily-reward-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+}
+
+.daily-reward-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.daily-reward-value {
+  color: #00e5a0;
+  font-size: 17px;
+  font-weight: 800;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.stake-rules-heading {
+  font-size: 13px;
+  font-weight: 750;
+  margin: 12px 0 7px;
+}
+
+.stake-rules-placeholder {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+  
   
 </style>
 </head>
@@ -846,7 +945,7 @@
           </div>
         </div>
         <div class="status muted" id="earnStatus" role="status"></div>
-
+<!---------
         <div class="stake-balance-info">
   <div class="stake-balance-row">
     <span>Avail</span>
@@ -858,6 +957,68 @@
     <strong id="stakeMaxAmount">— NAVAA</strong>
   </div>
 </div>
+------->
+        <!-- Available balance and maximum stake -->
+<div class="stake-balance-info">
+  <div class="stake-balance-row">
+    <span>Avail</span>
+    <strong id="stakeAvailAmount">— NAVAA</strong>
+  </div>
+
+  <div class="stake-balance-row">
+    <span>Maximum stake</span>
+    <strong id="stakeMaxAmount">— NAVAA</strong>
+  </div>
+</div>
+
+<!-- Stake detail tabs -->
+<div class="stake-detail-tabs">
+  <button
+    class="stake-detail-tab active"
+    id="rewardRuleTab"
+    type="button"
+    aria-selected="true">
+    Reward &amp; Rule
+  </button>
+
+  <button
+    class="stake-detail-tab"
+    id="allPositionTab"
+    type="button"
+    aria-selected="false">
+    All Position
+  </button>
+</div>
+
+<!-- Reward & Rule content -->
+<div class="stake-detail-panel active" id="rewardRulePanel">
+
+  <div class="daily-reward-row">
+    <span class="daily-reward-label">Est. Daily Rewards</span>
+    <strong class="daily-reward-value" id="dailyRewardEstimate">
+      0 NAVAA
+    </strong>
+  </div>
+
+  <div class="stake-rules-heading">Rules</div>
+
+  <div class="stake-rules-placeholder">
+    Staking rules and details will be displayed here.
+  </div>
+
+</div>
+
+<!-- All Position content -->
+<div class="stake-detail-panel" id="allPositionPanel">
+
+  <div id="stakePositions">
+    <div class="muted">Connect wallet to view positions.</div>
+  </div>
+
+</div>
+
+
+        
         <!---------------------------------------------------->
         
         <label class="earn-label" for="stakeReferrer">Referral address (first stake only)</label>
@@ -869,10 +1030,10 @@
 
         
         <hr class="sep">
-        <h2>Your positions</h2>
+     <!------   <h2>Your positions</h2>
         <div class="earn-note">Rewards shown are estimates from on-chain data and may update after refresh. Claiming rewards is subject to the contract's 30-day cooldown.</div>
         <div id="stakePositions"><div class="muted">Connect wallet to view positions.</div>
-        </div>
+        </div>. ------>
       </section>
 
       <section class="card earn-subpage" id="earnReferralSection">
@@ -1478,12 +1639,54 @@ $('pageEarnTab').onclick = () => {
 };
 $('pageEarnTab').addEventListener('click',()=>{initStakeRead().catch(e=>status('earnStatus','Staking contract read error: '+prettyError(e),'bad'));});
 
+
+
+  // ===== Reward & Rule / All Position tabs =====
+
+function switchStakeDetailTab(tab){
+
+  const rewardTab = $('rewardRuleTab');
+  const positionTab = $('allPositionTab');
+
+  const rewardPanel = $('rewardRulePanel');
+  const positionPanel = $('allPositionPanel');
+
+  const showReward = tab === 'reward';
+
+  rewardTab.classList.toggle('active', showReward);
+  positionTab.classList.toggle('active', !showReward);
+
+  rewardTab.setAttribute('aria-selected', String(showReward));
+  positionTab.setAttribute('aria-selected', String(!showReward));
+
+  rewardPanel.classList.toggle('active', showReward);
+  positionPanel.classList.toggle('active', !showReward);
+}
+
+$('rewardRuleTab').onclick = () => {
+  switchStakeDetailTab('reward');
+};
+
+$('allPositionTab').onclick = () => {
+  switchStakeDetailTab('position');
+};
   
 $('stakeApproveBtn').onclick=approveStake;
 
   // Live NAVAA stake amount validation
 $('stakeAmount').addEventListener('input',()=>{
-  clearTimeout(stakeAmountValidationTimer);
+
+  // Live daily reward estimate: 0.07%
+const enteredAmount = Number($('stakeAmount').value);
+if(Number.isFinite(enteredAmount) && enteredAmount > 0){
+  const dailyReward = enteredAmount * 0.0007;
+  $('dailyRewardEstimate').textContent =
+    fmt(dailyReward, 8) + ' NAVAA';
+}else{
+  $('dailyRewardEstimate').textContent = '0 NAVAA';
+}
+
+   clearTimeout(stakeAmountValidationTimer);
   const run = ++stakeAmountValidationRun;
   stakeAmountValidationTimer = setTimeout(async()=>{
     if(run !== stakeAmountValidationRun) return;
