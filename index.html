@@ -1002,9 +1002,29 @@
         </div>
         
         <!---------------------------------------------------->
+
+        <!--
         
         <label class="earn-label" for="stakeReferrer">Referral address (first stake only)</label>
         <input class="earn-input" id="stakeReferrer" type="text" placeholder="0x... (optional if already staked)">
+
+        --------------------->
+
+        <div id="stakeReferrerWrap">
+  <label class="earn-label" for="stakeReferrer">
+    Referral address (first stake only)
+  </label>
+
+  <input
+    class="earn-input"
+    id="stakeReferrer"
+    type="text"
+    placeholder="0x... (optional)">
+</div>
+        <!------------------------------------------------------->
+        
+
+        
         <div class="earn-note" style="margin-top:6px">A valid referrer must be the contract's root referrer or an existing staker. If no referral is entered for a first stake, the root referrer is used.</div>
         <div class="earn-actions" style="margin-top:12px"><button class="btn secondary" id="stakeApproveBtn">Approve NAVAA</button><button class="btn" id="stakeSubmitBtn">Stake NAVAA</button></div>  
       </section>
@@ -1251,7 +1271,14 @@ async function refreshStakeInfo(){
    setTxt('stakeMaxAmount',fmtToken(capacity) + ' NAVAA');
     
    setTxt('nextClaimText',Number(nextClaim)>0?dateText(nextClaim):'Available now');
-   $('stakeReferrer').disabled=hasStaked;
+  
+    
+   // $('stakeReferrer').disabled=hasStaked;
+    
+    $('stakeReferrerWrap').style.display = hasStaked ? 'none' : '';
+    $('stakeReferrer').disabled = hasStaked;
+
+
    if(!hasStaked && !$('stakeReferrer').value)$('stakeReferrer').value=getReferralFromUrl()||root;
    $('referralLink').value=location.origin+location.pathname+'?ref='+account;
    $('stakeApproveBtn').textContent=allowance>0n?'Approve NAVAA (update)':'Approve NAVAA';
