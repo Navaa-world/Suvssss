@@ -958,70 +958,55 @@
             <strong id="stakeMaxAmount">— NAVAA</strong>
           </div>
         </div>
+        
+        <!-- Stake detail tabs -->
+        <div class="stake-detail-tabs">
+          <button
+            class="stake-detail-tab active"
+            id="rewardRuleTab"
+            type="button"
+            aria-selected="true">
+            Reward &amp; Rule
+          </button>
 
-<!-- Stake detail tabs -->
-<div class="stake-detail-tabs">
-  <button
-    class="stake-detail-tab active"
-    id="rewardRuleTab"
-    type="button"
-    aria-selected="true">
-    Reward &amp; Rule
-  </button>
+          <button
+            class="stake-detail-tab"
+            id="allPositionTab"
+            type="button"
+            aria-selected="false">
+            All Position
+          </button>
+        </div>
 
-  <button
-    class="stake-detail-tab"
-    id="allPositionTab"
-    type="button"
-    aria-selected="false">
-    All Position
-  </button>
-</div>
+        <!-- Reward & Rule content -->
+        <div class="stake-detail-panel active" id="rewardRulePanel">
 
-<!-- Reward & Rule content -->
-<div class="stake-detail-panel active" id="rewardRulePanel">
+          <div class="daily-reward-row">
+            <span class="daily-reward-label">Est. Daily Rewards</span>
+            <strong class="daily-reward-value" id="dailyRewardEstimate">
+              0 NAVAA
+            </strong>
+          </div>
 
-  <div class="daily-reward-row">
-    <span class="daily-reward-label">Est. Daily Rewards</span>
-    <strong class="daily-reward-value" id="dailyRewardEstimate">
-      0 NAVAA
-    </strong>
-  </div>
-
-  <div class="stake-rules-heading">Rules</div>
-
-  <div class="stake-rules-placeholder">
-    Staking rules and details will be displayed here.
-  </div>
-
-</div>
-
-<!-- All Position content -->
-<div class="stake-detail-panel" id="allPositionPanel">
-
-  <div id="stakePositions">
-    <div class="muted">Connect wallet to view positions.</div>
-  </div>
-
-</div>
-
-
+          <div class="stake-rules-heading">Rules</div>
+          <div class="stake-rules-placeholder">
+            Staking rules and details will be displayed here.
+          </div>
+        </div>
+        
+        <!-- All Position content -->
+        <div class="stake-detail-panel" id="allPositionPanel">
+          <div id="stakePositions">
+            <div class="muted">Connect wallet to view positions.</div>
+          </div>
+        </div>
         
         <!---------------------------------------------------->
         
         <label class="earn-label" for="stakeReferrer">Referral address (first stake only)</label>
         <input class="earn-input" id="stakeReferrer" type="text" placeholder="0x... (optional if already staked)">
         <div class="earn-note" style="margin-top:6px">A valid referrer must be the contract's root referrer or an existing staker. If no referral is entered for a first stake, the root referrer is used.</div>
-        <div class="earn-actions" style="margin-top:12px"><button class="btn secondary" id="stakeApproveBtn">Approve NAVAA</button><button class="btn" id="stakeSubmitBtn">Stake NAVAA</button></div>
-    
-        <!----- <div class="status muted" id="earnStatus" role="status"></div>. -------->
-
-        
-        <hr class="sep">
-     <!------   <h2>Your positions</h2>
-        <div class="earn-note">Rewards shown are estimates from on-chain data and may update after refresh. Claiming rewards is subject to the contract's 30-day cooldown.</div>
-        <div id="stakePositions"><div class="muted">Connect wallet to view positions.</div>
-        </div>. ------>
+        <div class="earn-actions" style="margin-top:12px"><button class="btn secondary" id="stakeApproveBtn">Approve NAVAA</button><button class="btn" id="stakeSubmitBtn">Stake NAVAA</button></div>  
       </section>
 
       <section class="card earn-subpage" id="earnReferralSection">
@@ -1055,54 +1040,44 @@
       <button class="btn secondary full" id="stakeAcceptOwnerBtn">Accept pending ownership</button>
       <div class="status muted" id="stakeAdminStatus"></div>
     </section>
+    
+    <!-- BOTTOM NAVIGATION START -->
+    <nav class="earn-bottom-nav" aria-label="Earn navigation">
+      <button class="earn-nav-item active"
+        type="button"
+        data-earn-target="earnHomeSection">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m3 10 9-7 9 7"></path>
+          <path d="M5 9v11h14V9"></path>
+          <path d="M9 20v-7h6v7"></path>
+        </svg>   
+        <span>Home</span>
+      </button>
 
-      <!-- BOTTOM NAVIGATION START -->
-<nav class="earn-bottom-nav" aria-label="Earn navigation">
-
-  <button class="earn-nav-item active"
-          type="button"
-          data-earn-target="earnHomeSection">
-
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="m3 10 9-7 9 7"></path>
-      <path d="M5 9v11h14V9"></path>
-      <path d="M9 20v-7h6v7"></path>
-    </svg>
-
-    <span>Home</span>
-  </button>
-
-  <button class="earn-nav-item"
-          type="button"
-          data-earn-target="earnStakeSection">
-
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 2v20"></path>
-      <path d="M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-    </svg>
-
-    <span>Earn</span>
-  </button>
-
-  <button class="earn-nav-item"
-          type="button"
-          data-earn-target="earnReferralSection">
-
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="9" cy="8" r="3"></circle>
-      <path d="M3 20v-1a6 6 0 0 1 12 0v1"></path>
-      <path d="M16 5a3 3 0 0 1 0 6"></path>
-      <path d="M18 14a5 5 0 0 1 3 4v2"></path>
-    </svg>
-
-    <span>Refer &amp; Earn</span>
-  </button>
-
-</nav>
-
+      <button class="earn-nav-item"
+        type="button"
+        data-earn-target="earnStakeSection">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2v20"></path>
+          <path d="M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <span>Earn</span>
+      </button>
       
+      <button class="earn-nav-item"
+        type="button"
+        data-earn-target="earnReferralSection">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="9" cy="8" r="3"></circle>
+          <path d="M3 20v-1a6 6 0 0 1 12 0v1"></path>
+          <path d="M16 5a3 3 0 0 1 0 6"></path>
+          <path d="M18 14a5 5 0 0 1 3 4v2"></path>
+        </svg>    
+        <span>Refer &amp; Earn</span>
+      </button>
+    </nav>
   </div>
-</section>
+    </section>
     
     
 </main>
