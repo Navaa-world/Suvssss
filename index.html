@@ -1513,8 +1513,58 @@ function amountToUnits(value, decimals=18){if(!value || !/^\d+(\.\d*)?$/.test(St
 function unitsToHuman(v,decimals=18){return ethers.formatUnits(v,decimals);}
 function deadline(){return BigInt(Math.floor(Date.now()/1000)+1200);}
 function minOut(out, slippageId){const s=Number($(slippageId).value);if(!Number.isFinite(s)||s<0||s>50)throw Error('Slippage 0 se 50% ke beech rakhein.');return out*BigInt(Math.floor((100-s)*10000))/1000000n;}
-function setTxt(id,v){$(id).textContent=v;}
+//function setTxt(id,v){$(id).textContent=v;}
+//async function ensurePolygon(){
+
+  function setTxt(id,v){$(id).textContent=v;}
+
+let injectedWallet = null;
+
+function getInjectedWallet(){
+  const candidates = [
+    window.ethereum,
+    window.trustwallet?.ethereum,
+    window.safepal?.ethereum
+  ];
+
+  return candidates.find(p => p && typeof p.request === 'function') || null;
+}
+
 async function ensurePolygon(){
+  if(!injectedWallet) injectedWallet = getInjectedWallet();
+
+  if(!injectedWallet){
+    throw Error('Wallet provider nahi mila. MetaMask, Trust Wallet ya SafePal ke in-app browser mein website kholein.');
+  }
+
+  let chain = await injectedWallet.request({method:'eth_chainId'});
+
+  if(BigInt(chain)!==CHAIN_ID){
+    try{
+      await injectedWallet.request({
+        method:'wallet_switchEthereumChain',
+        params:[{chainId:'0x89'}]
+      });
+    }
+    catch(e){
+      if(e.code===4902){
+        await injectedWallet.request({
+          method:'wallet_addEthereumChain',
+          params:[{
+            chainId:'0x89',
+            chainName:'Polygon Mainnet',
+            nativeCurrency:{name:'POL',symbol:'POL',decimals:18},
+            rpcUrls:['https://polygon.drpc.org'],
+            blockExplorerUrls:['https://polygonscan.com']
+          }]
+        });
+      }else{
+        throw e;
+      }
+    }
+  }
+}
+  
  if(!window.ethereum)throw Error('MetaMask ya EVM wallet browser extension connect karein. GitHub Pages URL ko wallet ke in-app browser mein bhi khol sakte hain.');
  let chain=await window.ethereum.request({method:'eth_chainId'});
  if(BigInt(chain)!==CHAIN_ID){
@@ -1576,7 +1626,16 @@ async function updateQuotes(){
  }catch(e){status('tradeStatus','Quote error: '+prettyError(e),'bad');}
 }
 async function connect(){
- try{await ensurePolygon();walletProvider=new ethers.BrowserProvider(window.ethereum);await walletProvider.send('eth_requestAccounts',[]);signer=await walletProvider.getSigner();account=await signer.getAddress();exWrite=new ethers.Contract(EXCHANGE,EX_ABI,signer);tokenWrite=new ethers.Contract(TOKEN,TOKEN_ABI,signer);stakeWrite=new ethers.Contract(STAKING,STAKE_ABI,signer);$('connectBtn').textContent=account.slice(0,6)+'…'+account.slice(-4);$('buyBtn').textContent='Buy NAVAA';$('sellBtn').textContent='Sell NAVAA';await refreshInfo();status('tradeStatus','Wallet connected: '+account,'good');if(!$('earnPage').classList.contains('hidden'))await refreshStakeInfo();}
+ try{await ensurePolygon();
+   //  walletProvider=new ethers.BrowserProvider(window.ethereum);
+     walletProvider=new ethers.BrowserProvider(injectedWallet);
+     await walletProvider.send('eth_requestAccounts',[]);
+     signer=await walletProvider.getSigner();account=await signer.getAddress();
+     exWrite=new ethers.Contract(EXCHANGE,EX_ABI,signer);tokenWrite=new ethers.Contract(TOKEN,TOKEN_ABI,signer);
+     stakeWrite=new ethers.Contract(STAKING,STAKE_ABI,signer);
+     $('connectBtn').textContent=account.slice(0,6)+'…'+account.slice(-4);$('buyBtn').textContent='Buy NAVAA';
+     $('sellBtn').textContent='Sell NAVAA';await refreshInfo();status('tradeStatus','Wallet connected: '+account,'good');
+     if(!$('earnPage').classList.contains('hidden'))await refreshStakeInfo();}
  catch(e){status('tradeStatus','Wallet connection failed: '+prettyError(e),'bad');}
 }
 async function tradeBuy(){
@@ -2211,7 +2270,16 @@ $('depositPolBtn').onclick=()=>adminTx('Deposit POL',()=>exWrite.depositPOL({val
 $('withdrawPolBtn').onclick=()=>adminTx('Withdraw POL',()=>exWrite.withdrawPOL(amountToUnits($('withdrawPolAmount').value)));
 $('withdrawTokenBtn').onclick=()=>adminTx('Withdraw NAVAA',()=>exWrite.withdrawNAVAA(amountToUnits($('withdrawTokenAmount').value)));
 $('pauseBtn').onclick=()=>adminTx('Pause trading',()=>exWrite.pause());$('unpauseBtn').onclick=()=>adminTx('Unpause trading',()=>exWrite.unpause());
-if(window.ethereum){window.ethereum.on?.('accountsChanged',()=>location.reload());window.ethereum.on?.('chainChanged',()=>location.reload());}
+
+ /* if(window.ethereum){window.ethereum.on?.('accountsChanged',
+                                           ()=>location.reload());window.ethereum.on?.('chainChanged',
+                                                                                       ()=>location.reload());} */
+
+  if(injectedWallet){
+  injectedWallet.on?.('accountsChanged',()=>location.reload());
+  injectedWallet.on?.('chainChanged',()=>location.reload());
+  }
+  
 initRead().then(updatePolPrice).catch(e=>status('tradeStatus','Could not load contract data: '+prettyError(e),'bad'));
 setInterval(()=>{if(!$('exchangePage').classList.contains('hidden'))refreshInfo();},30000);
 setInterval(()=>{if(!$('exchangePage').classList.contains('hidden'))updatePolPrice();},180000);
