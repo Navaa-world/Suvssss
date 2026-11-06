@@ -1543,6 +1543,7 @@ async function initRead(){
  $('tokenScan').href='https://polygonscan.com/address/'+TOKEN;
  await refreshInfo();
 }
+  
 async function refreshInfo(){
  try{
   const [tokenAddr,owner,fee,buy,sell,paused,tokenBal,polBal]=await Promise.all([
@@ -1558,9 +1559,6 @@ async function refreshInfo(){
 
  //  setTxt('feeWallet',fee);setTxt('pausedStatus',paused?'Paused':'Active');
   // setTxt('pausedStatus',paused?'Paused':'Active');
-
-
-
    
   if(tokenAddr.toLowerCase()!==TOKEN.toLowerCase())throw Error('Warning: Exchange ka configured NAVAA token address expected token se match nahi karta!');
   isOwner=!!account&&owner.toLowerCase()===account.toLowerCase();
@@ -1569,6 +1567,8 @@ async function refreshInfo(){
 //  setNetwork(account?'Connected':'Polygon · read-only');  --modification---Comments off------------
    
   await updateQuotes();
+   if(account) await updateHomeWalletUI();   //-----modify
+   
  }catch(e){status('tradeStatus','Contract read failed: '+prettyError(e),'bad');}
 }
 async function updatePolPrice(){
@@ -1688,7 +1688,21 @@ $('exchangeOptionBtn').onclick = showExchangePage;
 $('homeLogoBtn')?.addEventListener('click',showHomePage);
   
 async function connect(){
- try{await ensurePolygon();walletProvider=new ethers.BrowserProvider(window.ethereum);await walletProvider.send('eth_requestAccounts',[]);signer=await walletProvider.getSigner();account=await signer.getAddress();exWrite=new ethers.Contract(EXCHANGE,EX_ABI,signer);tokenWrite=new ethers.Contract(TOKEN,TOKEN_ABI,signer);stakeWrite=new ethers.Contract(STAKING,STAKE_ABI,signer);$('connectBtn').textContent=account.slice(0,6)+'…'+account.slice(-4);$('buyBtn').textContent='Buy NAVAA';$('sellBtn').textContent='Sell NAVAA';await refreshInfo();status('tradeStatus','Wallet connected: '+account,'good');if(!$('earnPage').classList.contains('hidden'))await refreshStakeInfo();}
+ try{await ensurePolygon();walletProvider=new ethers.BrowserProvider(window.ethereum);await walletProvider.send('eth_requestAccounts',[]);signer=await walletProvider.getSigner();account=await signer.getAddress();exWrite=new ethers.Contract(EXCHANGE,EX_ABI,signer);tokenWrite=new ethers.Contract(TOKEN,TOKEN_ABI,signer);stakeWrite=new ethers.Contract(STAKING,STAKE_ABI,signer);
+   /*  $('connectBtn').textContent=account.slice(0,6)+'…'+account.slice(-4);
+     $('buyBtn').textContent='Buy NAVAA';
+     $('sellBtn').textContent='Sell NAVAA';
+     await refreshInfo();   */
+     
+     $('connectBtn').textContent=account.slice(0,6)+'…'+account.slice(-4);
+     $('buyBtn').textContent='Buy NAVAA';
+     $('sellBtn').textContent='Sell NAVAA';
+     await refreshInfo();
+     await updateHomeWalletUI();
+//////////////////////////////////////
+     
+     status('tradeStatus','Wallet connected: '+account,'good');
+     if(!$('earnPage').classList.contains('hidden'))await refreshStakeInfo();}
  catch(e){status('tradeStatus','Wallet connection failed: '+prettyError(e),'bad');}
 }
 async function tradeBuy(){
@@ -2088,7 +2102,7 @@ document.querySelectorAll('.earn-nav-item').forEach(button => {
 
 // Modification Exchange and Earn Tab
   
-$('pageExchangeTab').onclick = () => {
+/*$('pageExchangeTab').onclick = () => {
   $('exchangePage').classList.remove('hidden');
   $('earnPage').classList.add('hidden');
 
@@ -2103,9 +2117,31 @@ $('pageEarnTab').onclick = () => {
   $('pageEarnTab').classList.add('active');
   $('pageExchangeTab').classList.remove('active');
 };
-$('pageEarnTab').addEventListener('click',()=>{initStakeRead().catch(e=>status('earnStatus','Staking contract read error: '+prettyError(e),'bad'));});
+$('pageEarnTab').addEventListener('click',()=>{initStakeRead().catch(e=>status('earnStatus','Staking contract read error: '+prettyError(e),'bad'));}); */
 
 
+// ===== MAIN PAGE NAVIGATION =====
+
+$('pageExchangeTab').onclick = showExchangePage;
+
+$('pageEarnTab').onclick = () => {
+  $('homePage').classList.add('hidden');
+  $('p2pPage').classList.add('hidden');
+  $('exchangePage').classList.add('hidden');
+  $('earnPage').classList.remove('hidden');
+
+  $('pageEarnTab').classList.add('active');
+  $('pageExchangeTab').classList.remove('active');
+
+  closeAddFund();
+
+  initStakeRead().catch(e =>
+    status('earnStatus','Staking contract read error: '+prettyError(e),'bad')
+  );
+};
+
+
+  
 
   // ===== Reward & Rule / All Position tabs =====
 
