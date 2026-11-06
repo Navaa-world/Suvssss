@@ -1564,14 +1564,15 @@ async function ensurePolygon(){
     }
   }
 }
-  
+/*  
  if(!window.ethereum)throw Error('MetaMask ya EVM wallet browser extension connect karein. GitHub Pages URL ko wallet ke in-app browser mein bhi khol sakte hain.');
  let chain=await window.ethereum.request({method:'eth_chainId'});
  if(BigInt(chain)!==CHAIN_ID){
    try{await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x89'}]});}
    catch(e){if(e.code===4902)await window.ethereum.request({method:'wallet_addEthereumChain',params:[{chainId:'0x89',chainName:'Polygon Mainnet',nativeCurrency:{name:'POL',symbol:'POL',decimals:18},rpcUrls:['https://polygon.drpc.org'],blockExplorerUrls:['https://polygonscan.com']} ]});else throw e;}
  }
-}
+} */
+  
 async function initRead(){
  provider=new ethers.JsonRpcProvider('https://polygon.drpc.org');
  exRead=new ethers.Contract(EXCHANGE,EX_ABI,provider);
