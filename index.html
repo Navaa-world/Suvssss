@@ -123,7 +123,148 @@
     color:var(--muted);
     font-size:13px;
   }
-  .inputwrap{display:flex;gap:8px;align-items:center;background:#0d1425;border:1px solid var(--line);border-radius:13px;padding:5px 12px}.inputwrap input{background:transparent;border:0;outline:0;color:var(--text);font-size:19px;width:100%;min-width:0;padding:10px 0}.token{font-weight:800;color:#ddd6fe}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.quote{background:#0d1425;border:1px solid var(--line);border-radius:14px;padding:13px;margin:14px 0}.quote-line{display:flex;justify-content:space-between;gap:12px;margin:6px 0;font-size:13px}.full{width:100%;margin-top:12px}.notice{padding:11px 13px;border-radius:12px;background:#2b2416;color:#fde68a;font-size:13px;margin:12px 0}.status{margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}.good{color:var(--green)}.bad{color:var(--red)}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#0d1425;border:1px solid var(--line);border-radius:13px;padding:12px;min-width:0}.stat .v{font-size:18px;font-weight:800;overflow-wrap:anywhere}.admin{margin-top:16px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admin-grid input{width:100%;background:#0d1425;border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--text);margin-top:5px}.admin-grid label{font-size:12px;color:var(--muted)}.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hidden{display:none!important}a{color:#c4b5fd}.foot{margin-top:20px;font-size:12px;color:var(--muted)}.sep{border:0;border-top:1px solid var(--line);margin:18px 0}@media(max-width:760px){.layout{grid-template-columns:1fr}.card{padding:16px}.admin-grid{grid-template-columns:1fr}.top{align-items:flex-start}h1{font-size:21px}}
+  .inputwrap {
+    display:flex;
+    gap:8px;
+    align-items:center;
+    background:#0d1425;
+    border:1px solid var(--line);border-radius:13px;
+    padding:5px 12px;
+  }
+  .inputwrap input {
+    background:transparent;
+    border:0;
+    outline:0;
+    color:var(--text);
+    font-size:19px;
+    width:100%;
+    min-width:0;
+    padding:10px 0;
+  }
+  .token {
+    font-weight:800;
+    color:#ddd6fe;
+  }
+  .row {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+  .quote {
+    background:#0d1425;
+    border:1px solid var(--line);border-radius:14px;
+    padding:13px;
+    margin:14px 0;
+  }
+  .quote-line {
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin:6px 0;
+    font-size:13px
+  }
+  .full {
+    width:100%;
+    margin-top:12px
+  }
+  .notice {
+    padding:11px 13px;
+    border-radius:12px;
+    background:#2b2416;
+    color:#fde68a;
+    font-size:13px;
+    margin:12px 0;
+  }
+  .status {
+    margin-top:12px;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    font-size:13px;
+  }
+  .good {
+    color:var(--green);
+  }
+  .bad {
+    color:var(--red)
+  }
+  .stats {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .stat {
+    background:#0d1425;
+    border:1px solid var(--line);
+    border-radius:13px;
+    padding:12px;
+    min-width:0;
+  }
+  .stat .v {
+    font-size:18px;
+    font-weight:800;
+    overflow-wrap:anywhere;
+  }
+  .admin {
+    margin-top:16px;
+  }
+  .admin-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .admin-grid input {
+    width:100%;
+    background:#0d1425;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:11px;
+    color:var(--text);
+    margin-top:5px;
+  }
+  .admin-grid label {
+    font-size:12px;
+    color:var(--muted);
+  }
+  .admin-actions {
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:12px;
+  }
+  .hidden {
+    display:none!important;
+  }
+  a {
+    color:#c4b5fd;
+  }
+  .foot {
+    margin-top:20px;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .sep {
+    border:0;
+    border-top:1px solid var(--line);
+    margin:18px 0;
+  }
+  
+  @media(max-width:760px){
+    .layout {
+      grid-template-columns:1fr;
+    }
+    .card {
+      padding:16px;
+    }
+    .admin-grid {
+      grid-template-columns:1fr;
+    }
+    .top {
+      align-items:flex-start;
+    }
+    h1 {
+      font-size:21px;
+    }}
 
   
 /* NAVAA compact responsive header */
@@ -1035,43 +1176,48 @@
     </header>
     <!---------------------------END Header-------------------------->
     
-    <!--- Opening Tag modify ----->
+    <!--- EXCHANGE Page : modification ----->
     <div id="exchangePage" class="hidden">
-      <div class="notice">Use only Polygon Mainnet (chain ID 137). Always verify the contract addresses. Quotes are estimates and can change before confirmation.
-      </div>
       
       <div class="layout">
+        
         <section class="card">
+          
           <div class="tabs">
             <button class="tab active" id="buyTab">Buy NAVAA</button>
             <button class="tab" id="sellTab">Sell NAVAA</button>
           </div>
+          
           <div id="buyPanel">
+            
             <div class="row">
-              <span class="muted">You pay</span>
-              <span class="token">POL</span>
+              <span class="muted">Pay</span>
             </div>
             <div class="inputwrap">
               <input id="buyAmount" type="number" min="0" step="any" value="1" inputmode="decimal">
               <span class="token">POL</span>
             </div>
+            
             <div class="row" style="margin-top:13px">
-              <span class="muted">You receive (estimated)</span>
-              <span class="token">NAVAA</span>
+              <span class="muted">Receive (estimated)</span>
             </div>
             <div class="inputwrap">
               <input id="buyOutput" readonly value="—">
               <span class="token">NAVAA</span>
             </div>
+            
             <div class="quote">
+              
               <div class="quote-line">
                 <span class="muted">Trading fee (0.2%)</span>
                 <strong id="buyFee">— POL</strong>
               </div>
+              
               <div class="quote-line">
                 <span class="muted">Approx. INR value</span>
                 <strong id="buyInr">—</strong>
               </div>
+              
               <div class="quote-line">
                 <span class="muted">Reserve status</span>
                 <strong id="buyReserve">Connect/read contract</strong>
@@ -1088,21 +1234,21 @@
           
           <div id="sellPanel" class="hidden">
             <div class="row">
-              <span class="muted">You sell</span>
-              <span class="token">NAVAA</span>
+              <span class="muted">Sell</span>
             </div>
             <div class="inputwrap">
               <input id="sellAmount" type="number" min="0" step="any" value="99.8" inputmode="decimal">
               <span class="token">NAVAA</span>
             </div>
+            
             <div class="row" style="margin-top:13px">
-              <span class="muted">You receive (estimated)</span>
-              <span class="token">POL</span>
+              <span class="muted">Receive (estimated)</span>
             </div>
             <div class="inputwrap">
               <input id="sellOutput" readonly value="—">
               <span class="token">POL</span>
             </div>
+            
             <div class="quote">
               <div class="quote-line">
                 <span class="muted">Trading fee (0.2%)</span>
@@ -1132,6 +1278,8 @@
           </div>
   <div id="tradeStatus" class="status muted" role="status"></div>
 </section>
+
+        
 <aside class="card">
   <h2>Exchange information</h2>
   <div class="stats">
@@ -1147,6 +1295,9 @@
   <div class="foot">INR is an indicative market reference, not a guaranteed conversion or payout. This is a fixed-rate exchange; rates are owner-controlled.</div>
 </aside>
 </div>
+
+
+      
 <section class="card admin hidden" id="adminPanel">
   <div class="row"><h2>Owner dashboard</h2><span class="pill">Owner only</span></div>
   <div class="muted small">Owner actions affect all users. Double-check values before confirming any wallet transaction.</div>
