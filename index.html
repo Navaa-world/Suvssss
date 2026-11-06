@@ -2274,11 +2274,18 @@ $('pauseBtn').onclick=()=>adminTx('Pause trading',()=>exWrite.pause());$('unpaus
  /* if(window.ethereum){window.ethereum.on?.('accountsChanged',
                                            ()=>location.reload());window.ethereum.on?.('chainChanged',
                                                                                        ()=>location.reload());} */
-
+/*
   if(injectedWallet){
   injectedWallet.on?.('accountsChanged',()=>location.reload());
   injectedWallet.on?.('chainChanged',()=>location.reload());
-  }
+  }*/
+
+  injectedWallet = getInjectedWallet();
+
+if(injectedWallet){
+  injectedWallet.on?.('accountsChanged',()=>location.reload());
+  injectedWallet.on?.('chainChanged',()=>location.reload());
+}
   
 initRead().then(updatePolPrice).catch(e=>status('tradeStatus','Could not load contract data: '+prettyError(e),'bad'));
 setInterval(()=>{if(!$('exchangePage').classList.contains('hidden'))refreshInfo();},30000);
