@@ -746,6 +746,346 @@
   font-size: 12px;
   line-height: 1.6;
 }
+
+/* ===== NAVAA WALLET HOME ===== */
+
+.wallet-home {
+  position: relative;
+  overflow: hidden;
+  padding: 25px;
+  border: 1px solid rgba(0,229,160,.20);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(0,168,255,.13), transparent 38%),
+    linear-gradient(135deg,#142b36,#101a2d 65%,#171b35);
+  box-shadow: 0 15px 40px rgba(0,0,0,.20);
+}
+
+.wallet-home-top,
+.wallet-balance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.wallet-eyebrow {
+  color: #00e5a0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.wallet-title {
+  margin: 5px 0 0;
+  font-size: 22px;
+}
+
+.wallet-network {
+  padding: 6px 11px;
+  border: 1px solid rgba(0,229,160,.25);
+  border-radius: 30px;
+  color: #00e5a0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.wallet-balance-row {
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.wallet-balance {
+  min-width: 0;
+}
+
+.wallet-balance-label {
+  color: #a8b7ca;
+  font-size: 13px;
+}
+
+.wallet-balance-value {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 7px;
+}
+
+.wallet-balance-value #stakeWalletBalance {
+  color: #fff;
+  font-size: clamp(25px,5vw,36px);
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.wallet-token-symbol {
+  color: #00e5a0;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.wallet-balance-note {
+  margin-top: 7px;
+  color: #8495aa;
+  font-size: 11px;
+}
+
+.wallet-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 47px;
+  padding: 0 19px;
+  border: 1px solid rgba(0,229,160,.35);
+  border-radius: 13px;
+  background: linear-gradient(135deg,#00e5a0,#00bd91);
+  color: #061a16;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 7px 22px rgba(0,229,160,.12);
+  transition: .2s ease;
+}
+
+.wallet-add-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.wallet-add-icon {
+  font-size: 21px;
+  line-height: 1;
+}
+
+/* ===== ADD FUND BOTTOM SHEET ===== */
+
+.fund-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(2,7,16,.72);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.fund-sheet-overlay.hidden {
+  display: none !important;
+}
+
+.fund-sheet {
+  width: 100%;
+  max-width: 520px;
+  padding: 12px 22px 30px;
+  padding-bottom: max(30px,env(safe-area-inset-bottom));
+  border: 1px solid rgba(0,229,160,.20);
+  border-bottom: 0;
+  border-radius: 25px 25px 0 0;
+  background: linear-gradient(160deg,#17263b,#0c1425);
+  box-shadow: 0 -15px 55px rgba(0,0,0,.4);
+  animation: fundSlideUp .32s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes fundSlideUp {
+  from { transform: translateY(100%); opacity: .5; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.fund-sheet-handle {
+  width: 42px;
+  height: 4px;
+  margin: 0 auto 22px;
+  border-radius: 10px;
+  background: #526078;
+}
+
+.fund-sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.fund-sheet-header h2 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.fund-sheet-header p {
+  margin: 5px 0 0;
+  color: #9eacc7;
+  font-size: 12px;
+}
+
+.fund-close-btn {
+  width: 35px;
+  height: 35px;
+  border: 1px solid #344158;
+  border-radius: 50%;
+  background: #202d43;
+  color: #fff;
+  cursor: pointer;
+}
+
+.fund-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 14px;
+  margin-top: 11px;
+  padding: 16px;
+  border: 1px solid #2a3a51;
+  border-radius: 15px;
+  background: rgba(255,255,255,.025);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.fund-option:hover {
+  border-color: rgba(0,229,160,.45);
+  background: rgba(0,229,160,.055);
+}
+
+.fund-option-icon {
+  display: grid;
+  place-items: center;
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: rgba(0,229,160,.10);
+  color: #00e5a0;
+  font-size: 24px;
+}
+
+.fund-option-text {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+}
+
+.fund-option-text strong {
+  font-size: 14px;
+}
+
+.fund-option-text small {
+  color: #9eacc7;
+  font-size: 11px;
+}
+
+.fund-option-arrow {
+  color: #00e5a0;
+  font-size: 25px;
+}
+
+/* ===== P2P COMING SOON PAGE ===== */
+
+.p2p-back-btn {
+  padding: 9px 13px;
+  border: 1px solid #344158;
+  border-radius: 10px;
+  background: #17243a;
+  color: #dce8f7;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.p2p-coming-content {
+  max-width: 420px;
+  margin: 55px auto 65px;
+  text-align: center;
+}
+
+.p2p-icon {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 22px;
+  border: 1px solid rgba(0,229,160,.25);
+  border-radius: 23px;
+  background: rgba(0,229,160,.08);
+  color: #00e5a0;
+  font-size: 38px;
+}
+
+.p2p-label {
+  color: #00e5a0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.p2p-coming-content h2 {
+  margin: 10px 0;
+  font-size: 27px;
+}
+
+.p2p-coming-badge {
+  display: inline-block;
+  margin: 9px 0;
+  padding: 8px 15px;
+  border: 1px solid rgba(0,229,160,.3);
+  border-radius: 30px;
+  background: rgba(0,229,160,.08);
+  color: #00e5a0;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 1.5px;
+}
+
+.p2p-coming-content p {
+  max-width: 330px;
+  margin: 12px auto 0;
+  color: #9eacc7;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@media(max-width:480px) {
+  .wallet-home {
+    padding: 20px 17px;
+  }
+
+  .wallet-balance-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .wallet-add-btn {
+    width: 100%;
+  }
+
+  .p2p-coming-content {
+    margin: 45px auto;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .fund-sheet {
+    animation: none;
+  }
+
+  .wallet-add-btn,
+  .fund-option {
+    transition: none;
+  }
+}
+
+
+
+  
   
   
 </style>
@@ -913,7 +1253,7 @@
     
     <section id="earnPage">
   <div class="earn-wrap">
-    <section class="card earn-subpage active" id="earnHomeSection">
+<!------------    <section class="card earn-subpage active" id="earnHomeSection">
       <div class="earn-head">
         <div><h2 style="font-size:22px;margin-bottom:4px;">NAVAA Earn</h2><div class="muted">Stake NAVAA, track rewards, and invite new stakers.</div></div>
         <span class="pill" id="stakeStatusPill">Connect wallet to begin</span>
@@ -926,6 +1266,78 @@
         <div class="stat"><div class="muted small">Your referral rewards</div><div class="v" id="stakeReferralBalance">—</div><div class="earn-note">NAVAA</div></div>
       </div>
     </section>
+
+    -----_---------->
+
+           <section class="card earn-subpage active" id="earnHomeSection">
+
+  <!-- NAVAA WALLET BALANCE -->
+  <div class="wallet-home">
+
+    <div class="wallet-home-top">
+      <div>
+        <div class="wallet-eyebrow">NAVAA WALLET</div>
+        <h2 class="wallet-title">Your Balance</h2>
+      </div>
+      <span class="wallet-network">POLYGON</span>
+    </div>
+
+    <div class="wallet-balance-row">
+      <div class="wallet-balance">
+        <div class="wallet-balance-label">NAVAA Balance</div>
+
+        <div class="wallet-balance-value">
+          <span id="stakeWalletBalance">Connect wallet</span>
+          <span class="wallet-token-symbol">NAVAA</span>
+        </div>
+
+        <div class="wallet-balance-note">
+          Available in your connected wallet
+        </div>
+      </div>
+
+      <button class="wallet-add-btn" id="addFundBtn" type="button">
+        <span class="wallet-add-icon">＋</span>
+        Add Fund
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Existing JavaScript status element: keep this ID -->
+  <span id="stakeStatusPill" class="hidden">Connect wallet to begin</span>
+
+</section>
+
+               <!-- P2P COMING SOON PAGE -->
+<section class="card earn-subpage" id="earnP2PSection">
+
+  <button class="p2p-back-btn" id="p2pBackBtn" type="button">
+    ← Back to Home
+  </button>
+
+  <div class="p2p-coming-content">
+    <div class="p2p-icon">⇄</div>
+
+    <div class="p2p-label">NAVAA P2P</div>
+
+    <h2>P2P Trading</h2>
+
+    <div class="p2p-coming-badge">COMING SOON</div>
+
+    <p>
+      Buy and sell NAVAA directly with other users.
+      A simple and secure P2P experience is coming soon.
+    </p>
+  </div>
+
+</section>
+
+
+
+
+
+    
     
     <div class="earn-grid">
       <section class="card earn-subpage" id="earnStakeSection">
@@ -1060,6 +1472,47 @@
       <button class="btn secondary full" id="stakeAcceptOwnerBtn">Accept pending ownership</button>
       <div class="status muted" id="stakeAdminStatus"></div>
     </section>
+
+             <!-- ADD FUND BOTTOM SHEET -->
+<div class="fund-sheet-overlay hidden" id="fundSheet">
+
+  <div class="fund-sheet" role="dialog" aria-modal="true"
+       aria-labelledby="fundSheetTitle">
+
+    <div class="fund-sheet-handle"></div>
+
+    <div class="fund-sheet-header">
+      <div>
+        <h2 id="fundSheetTitle">Add Fund</h2>
+        <p>Select your preferred method</p>
+      </div>
+
+      <button class="fund-close-btn" id="closeFundSheet"
+              type="button" aria-label="Close">✕</button>
+    </div>
+
+    <button class="fund-option" id="fundP2PBtn" type="button">
+      <span class="fund-option-icon">⇄</span>
+      <span class="fund-option-text">
+        <strong>P2P</strong>
+        <small>Buy NAVAA from other users</small>
+      </span>
+      <span class="fund-option-arrow">›</span>
+    </button>
+
+    <button class="fund-option" id="fundExchangeBtn" type="button">
+      <span class="fund-option-icon">↗</span>
+      <span class="fund-option-text">
+        <strong>Exchange</strong>
+        <small>Buy NAVAA using the NAVAA Exchange</small>
+      </span>
+      <span class="fund-option-arrow">›</span>
+    </button>
+
+  </div>
+</div>
+
+      
     
     <!-- BOTTOM NAVIGATION START -->
     <nav class="earn-bottom-nav" aria-label="Earn navigation">
@@ -1609,6 +2062,72 @@ document.querySelectorAll('.earn-nav-item').forEach(button => {
 
   });
 });
+
+  /* ===== NAVAA ADD FUND NAVIGATION ===== */
+
+const fundSheet = $('fundSheet');
+
+// Open Add Fund popup
+$('addFundBtn').onclick = () => {
+  fundSheet.classList.remove('hidden');
+};
+
+// Close popup
+$('closeFundSheet').onclick = () => {
+  fundSheet.classList.add('hidden');
+};
+
+// Close popup when background is clicked
+fundSheet.addEventListener('click', (e) => {
+  if (e.target === fundSheet) {
+    fundSheet.classList.add('hidden');
+  }
+});
+
+// P2P: Open separate Coming Soon page
+$('fundP2PBtn').onclick = () => {
+  fundSheet.classList.add('hidden');
+
+  document.querySelectorAll('.earn-subpage').forEach(section => {
+    section.classList.remove('active');
+  });
+
+  $('earnP2PSection').classList.add('active');
+
+  document.querySelectorAll('.earn-nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// P2P: Back to Home
+$('p2pBackBtn').onclick = () => {
+  document.querySelectorAll('.earn-subpage').forEach(section => {
+    section.classList.remove('active');
+  });
+
+  $('earnHomeSection').classList.add('active');
+
+  document.querySelectorAll('.earn-nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+
+  const homeNav = document.querySelector(
+    '.earn-nav-item[data-earn-target="earnHomeSection"]'
+  );
+
+  if (homeNav) homeNav.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+// Exchange: Open existing Exchange page
+$('fundExchangeBtn').onclick = () => {
+  fundSheet.classList.add('hidden');
+  $('pageExchangeTab').click();
+};
+
 
 // Modification Exchange and Earn Tab
   
