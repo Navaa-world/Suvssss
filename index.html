@@ -1003,13 +1003,6 @@
         
         <!---------------------------------------------------->
 
-        <!--
-        
-        <label class="earn-label" for="stakeReferrer">Referral address (first stake only)</label>
-        <input class="earn-input" id="stakeReferrer" type="text" placeholder="0x... (optional if already staked)">
-
-        --------------------->
-
         <div id="stakeReferrerWrap">
   <label class="earn-label" for="stakeReferrer">
     Referral address (first stake only)
@@ -1173,9 +1166,19 @@ async function refreshInfo(){
    exRead.navaa(),exRead.owner(),exRead.feeWallet(),exRead.buyRate(),exRead.sellRate(),exRead.paused(),
    tokenRead.balanceOf(EXCHANGE),provider.getBalance(EXCHANGE)
   ]);
-  setTxt('buyRateStat',fmt(Number(ethers.formatEther(buy)),10));setTxt('sellRateStat',fmt(Number(ethers.formatEther(sell)),10));
-  setTxt('tokenReserve',fmt(Number(ethers.formatEther(tokenBal))));setTxt('polReserve',fmt(Number(ethers.formatEther(polBal))));
-  setTxt('feeWallet',fee);setTxt('pausedStatus',paused?'Paused':'Active');setTxt('pausedStatus',paused?'Paused':'Active');
+   setTxt('buyRateStat',fmt(Number(ethers.formatEther(buy)),10));
+   setTxt('sellRateStat',fmt(Number(ethers.formatEther(sell)),10));
+   setTxt('tokenReserve',fmt(Number(ethers.formatEther(tokenBal))));
+   setTxt('polReserve',fmt(Number(ethers.formatEther(polBal))));
+   
+   setTxt('feeWallet',fee);setTxt('pausedStatus',paused?'Paused':'Active');
+
+ //  setTxt('feeWallet',fee);setTxt('pausedStatus',paused?'Paused':'Active');
+  // setTxt('pausedStatus',paused?'Paused':'Active');
+
+
+
+   
   if(tokenAddr.toLowerCase()!==TOKEN.toLowerCase())throw Error('Warning: Exchange ka configured NAVAA token address expected token se match nahi karta!');
   isOwner=!!account&&owner.toLowerCase()===account.toLowerCase();
   $('adminPanel').classList.toggle('hidden',!isOwner);
