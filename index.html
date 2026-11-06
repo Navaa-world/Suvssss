@@ -746,6 +746,281 @@
   font-size: 12px;
   line-height: 1.6;
 }
+
+
+/* ===== NAVAA TOTAL BALANCE CARD ===== */
+.balance-card {
+  position: relative;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(0,229,160,.22);
+  border-radius: 20px;
+  background: linear-gradient(135deg,#142b35,#12243a 60%,#171d38);
+  box-shadow: 0 8px 28px rgba(0,0,0,.20);
+  overflow: hidden;
+}
+
+.balance-top {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#b8c8d8;
+  font-size:13px;
+  font-weight:650;
+}
+
+.balance-toggle {
+  border:0;
+  background:transparent;
+  color:#00e5a0;
+  font-size:23px;
+  font-weight:800;
+  cursor:pointer;
+  padding:0 5px;
+  min-width:34px;
+  min-height:34px;
+  border-radius:10px;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.balance-toggle:active,
+.add-funds-btn:active,
+.fund-option:active {
+  transform:scale(.96);
+}
+
+.balance-amount-wrap {
+  max-height:90px;
+  opacity:1;
+  overflow:hidden;
+  transform:translateY(0);
+  transition:max-height .38s ease,opacity .28s ease,
+             transform .38s ease,margin .38s ease;
+  margin-top:9px;
+}
+
+.balance-card.is-hidden .balance-amount-wrap {
+  max-height:0;
+  opacity:0;
+  transform:translateY(-12px);
+  margin-top:0;
+}
+
+.balance-amount {
+  font-size:clamp(25px,5vw,34px);
+  font-weight:850;
+  letter-spacing:-.8px;
+  color:#fff;
+  overflow-wrap:anywhere;
+}
+
+.balance-symbol {
+  color:#00e5a0;
+  font-size:13px;
+  font-weight:750;
+  margin-top:3px;
+}
+
+.add-funds-btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  width:100%;
+  min-height:46px;
+  margin-top:15px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(135deg,#00e5a0,#00bf91);
+  color:#071711;
+  font-size:14px;
+  font-weight:850;
+  cursor:pointer;
+  transition:transform .2s ease,filter .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.add-funds-btn:hover {
+  filter:brightness(1.08);
+}
+
+/* ===== ADD FUNDS BOTTOM SHEET ===== */
+.fund-sheet-overlay {
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  background:rgba(0,0,0,.62);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .3s ease,visibility .3s ease;
+  padding:0;
+}
+
+.fund-sheet-overlay.open {
+  opacity:1;
+  visibility:visible;
+}
+
+.fund-sheet {
+  width:100%;
+  max-width:520px;
+  padding:12px 20px calc(25px + env(safe-area-inset-bottom));
+  background:#151f32;
+  border:1px solid #293650;
+  border-bottom:0;
+  border-radius:24px 24px 0 0;
+  transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.2,.8,.2,1);
+}
+
+.fund-sheet-overlay.open .fund-sheet {
+  transform:translateY(0);
+}
+
+.fund-sheet-handle {
+  width:42px;
+  height:4px;
+  border-radius:10px;
+  background:#65738a;
+  margin:0 auto 19px;
+}
+
+.fund-sheet-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:17px;
+}
+
+.fund-sheet-heading h2 {
+  margin:0;
+  font-size:19px;
+}
+
+.fund-close {
+  border:0;
+  border-radius:10px;
+  width:36px;
+  height:36px;
+  background:#26344a;
+  color:white;
+  font-size:21px;
+  cursor:pointer;
+}
+
+.fund-option {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  min-height:76px;
+  padding:13px;
+  margin-top:10px;
+  border:1px solid #30415b;
+  border-radius:15px;
+  background:#101a2c;
+  color:white;
+  text-align:left;
+  cursor:pointer;
+  transition:transform .2s ease,border-color .2s ease;
+}
+
+.fund-option:hover {
+  border-color:#00e5a0;
+}
+
+.fund-option-icon {
+  width:46px;
+  height:46px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:rgba(0,229,160,.10);
+  color:#00e5a0;
+  font-size:22px;
+  font-weight:850;
+}
+
+.fund-option-info {
+  flex:1;
+  min-width:0;
+}
+
+.fund-option-info strong {
+  display:block;
+  font-size:15px;
+}
+
+.fund-option-info small {
+  color:#9eacc7;
+  font-size:12px;
+}
+
+.fund-option-arrow {
+  color:#9eacc7;
+  font-size:23px;
+}
+
+/* ===== P2P COMING SOON PAGE ===== */
+#p2pComingSoon {
+  text-align:center;
+  padding:55px 22px;
+  min-height:300px;
+}
+
+.p2p-icon {
+  width:76px;
+  height:76px;
+  margin:0 auto 20px;
+  display:grid;
+  place-items:center;
+  border-radius:22px;
+  background:rgba(0,229,160,.10);
+  color:#00e5a0;
+  font-size:35px;
+}
+
+.p2p-title {
+  font-size:25px;
+  font-weight:850;
+  margin-bottom:8px;
+}
+
+.p2p-description {
+  max-width:340px;
+  margin:0 auto 22px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+@media(max-width:480px) {
+  .balance-card {
+    padding:17px;
+    border-radius:17px;
+  }
+
+  .fund-sheet {
+    padding-left:16px;
+    padding-right:16px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .balance-amount-wrap,
+  .fund-sheet,
+  .fund-sheet-overlay,
+  .fund-option,
+  .add-funds-btn {
+    transition:none;
+  }
+}
+
+  
   
   
 </style>
@@ -914,6 +1189,76 @@
     <section id="earnPage">
   <div class="earn-wrap">
     <section class="card earn-subpage active" id="earnHomeSection">
+
+      
+<!-- ===== TOTAL BALANCE SECTION ===== -->
+<div class="balance-card" id="totalBalanceCard">
+
+  <div class="balance-top">
+    <span>Est. Total Balance</span>
+
+    <button
+      class="balance-toggle"
+      id="balanceToggleBtn"
+      type="button"
+      aria-label="Hide balance"
+      aria-expanded="true">
+      ↑
+    </button>
+  </div>
+
+  <div class="balance-amount-wrap" id="balanceAmountWrap">
+    <div class="balance-amount" id="earnTotalBalance">
+      Connect wallet
+    </div>
+    <div class="balance-symbol">NAVAA</div>
+  </div>
+
+  <button class="add-funds-btn" id="addFundsBtn" type="button">
+    <span style="font-size:19px">＋</span>
+    Add funds
+  </button>
+
+</div>
+
+<!-- ===== ADD FUNDS BOTTOM SHEET ===== -->
+<div class="fund-sheet-overlay" id="fundSheetOverlay">
+
+  <div class="fund-sheet" role="dialog"
+       aria-modal="true" aria-label="Add funds">
+
+    <div class="fund-sheet-handle"></div>
+
+    <div class="fund-sheet-heading">
+      <h2>Add funds</h2>
+      <button class="fund-close" id="closeFundSheet"
+              type="button">×</button>
+    </div>
+
+    <button class="fund-option" id="p2pFundBtn" type="button">
+      <span class="fund-option-icon">⇄</span>
+      <span class="fund-option-info">
+        <strong>P2P</strong>
+        <small>Buy NAVAA through P2P</small>
+      </span>
+      <span class="fund-option-arrow">›</span>
+    </button>
+
+    <button class="fund-option" id="exchangeFundBtn" type="button">
+      <span class="fund-option-icon">↔</span>
+      <span class="fund-option-info">
+        <strong>Exchange</strong>
+        <small>Buy NAVAA on NAVAA Exchange</small>
+      </span>
+      <span class="fund-option-arrow">›</span>
+    </button>
+
+  </div>
+</div>
+
+
+
+      
       <div class="earn-head">
         <div><h2 style="font-size:22px;margin-bottom:4px;">NAVAA Earn</h2><div class="muted">Stake NAVAA, track rewards, and invite new stakers.</div></div>
         <span class="pill" id="stakeStatusPill">Connect wallet to begin</span>
@@ -926,6 +1271,27 @@
         <div class="stat"><div class="muted small">Your referral rewards</div><div class="v" id="stakeReferralBalance">—</div><div class="earn-note">NAVAA</div></div>
       </div>
     </section>
+
+
+<section class="card earn-subpage" id="p2pComingSoon">
+
+  <div class="p2p-icon">⇄</div>
+
+  <div class="p2p-title">P2P Coming Soon</div>
+
+  <div class="p2p-description">
+    NAVAA P2P marketplace is under development.
+    Soon you will be able to buy and sell NAVAA
+    directly with other users.
+  </div>
+
+  <button class="btn full" id="backP2PHome" type="button">
+    ← Back to Home
+  </button>
+
+</section>
+
+    
     
     <div class="earn-grid">
       <section class="card earn-subpage" id="earnStakeSection">
@@ -1265,6 +1631,7 @@ async function refreshStakeInfo(){
 
     
    setTxt('stakeWalletBalance',fmtToken(bal));
+    setTxt('earnTotalBalance',fmtToken(bal));
    setTxt('stakeMaxCapacity',fmtToken(capacity));
    setTxt('stakeReferralBalance',fmtToken(refBal));
    setTxt('stakeAvailAmount',fmtToken(bal) + ' NAVAA');
@@ -1286,6 +1653,7 @@ async function refreshStakeInfo(){
   }
   else{
    setTxt('stakeWalletBalance','—');
+    setTxt('earnTotalBalance','Connect wallet');
    setTxt('stakeMaxCapacity','—');
    setTxt('stakeReferralBalance','—');
    setTxt('stakeAvailAmount','— NAVAA');
@@ -1609,6 +1977,135 @@ document.querySelectorAll('.earn-nav-item').forEach(button => {
 
   });
 });
+
+
+  
+/* ===== TOTAL BALANCE HIDE / SHOW ===== */
+
+const totalBalanceCard = $('totalBalanceCard');
+const balanceToggleBtn = $('balanceToggleBtn');
+
+balanceToggleBtn.onclick = () => {
+
+  const hidden = totalBalanceCard.classList.toggle('is-hidden');
+
+  balanceToggleBtn.textContent = hidden ? '↓' : '↑';
+
+  balanceToggleBtn.setAttribute(
+    'aria-label',
+    hidden ? 'Show balance' : 'Hide balance'
+  );
+
+  balanceToggleBtn.setAttribute(
+    'aria-expanded',
+    String(!hidden)
+  );
+};
+
+
+/* ===== ADD FUNDS BOTTOM SHEET ===== */
+
+const fundSheet = $('fundSheetOverlay');
+
+function openFundSheet() {
+  fundSheet.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFundSheet() {
+  fundSheet.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+$('addFundsBtn').onclick = openFundSheet;
+$('closeFundSheet').onclick = closeFundSheet;
+
+
+/* Close when clicking outside bottom sheet */
+
+fundSheet.addEventListener('click', (e) => {
+  if (e.target === fundSheet) {
+    closeFundSheet();
+  }
+});
+
+
+/* ===== P2P COMING SOON PAGE ===== */
+
+function openP2PPage() {
+
+  closeFundSheet();
+
+  document.querySelectorAll('.earn-subpage').forEach(section => {
+    section.classList.remove('active');
+  });
+
+  $('p2pComingSoon').classList.add('active');
+
+  document.querySelectorAll('.earn-nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+
+  // Hide bottom navigation on P2P page
+  document.querySelector('.earn-bottom-nav').classList.add('hidden');
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+$('p2pFundBtn').onclick = openP2PPage;
+
+
+/* ===== BACK TO EARN HOME ===== */
+
+$('backP2PHome').onclick = () => {
+
+  $('p2pComingSoon').classList.remove('active');
+  $('earnHomeSection').classList.add('active');
+
+  document.querySelector('.earn-bottom-nav').classList.remove('hidden');
+
+  document.querySelectorAll('.earn-nav-item').forEach(item => {
+    item.classList.toggle(
+      'active',
+      item.dataset.earnTarget === 'earnHomeSection'
+    );
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+
+
+/* ===== GO TO EXCHANGE ===== */
+
+$('exchangeFundBtn').onclick = () => {
+
+  closeFundSheet();
+
+  $('pageExchangeTab').click();
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+
+
+/* ===== ESCAPE KEY CLOSES BOTTOM SHEET ===== */
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeFundSheet();
+  }
+});
+
+
+  
 
 // Modification Exchange and Earn Tab
   
